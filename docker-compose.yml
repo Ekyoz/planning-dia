@@ -1,0 +1,19 @@
+services:
+  planning-dia:
+    build: .
+    container_name: planning-dia
+    ports:
+      - "5000:5000"
+    volumes:
+      - /home/coxyz/planning-dia:/app
+      - uv-cache:/root/.cache/uv
+    restart: unless-stopped
+    networks:
+      - coxyz_network
+
+volumes:
+  uv-cache:
+
+networks:
+  coxyz_network:
+    external: true
