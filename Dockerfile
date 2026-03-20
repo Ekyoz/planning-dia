@@ -16,4 +16,4 @@ WORKDIR /app
 COPY pyproject.toml .
 RUN uv sync
 
-CMD ["uv", "run", "uvicorn", "table_extractor.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
+CMD ["uv", "run", "uvicorn", "planning_dia.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
