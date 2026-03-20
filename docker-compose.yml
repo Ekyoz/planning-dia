@@ -6,12 +6,14 @@ services:
       - "5000:5000"
     volumes:
       - /home/coxyz/planning-dia:/app
-      - uv-cache:/root/.cache/uv
+      - venv:/venv                    # ← venv persistant
+      - uv-cache:/root/.cache/uv      # ← cache uv persistant
     restart: unless-stopped
     networks:
       - coxyz_network
 
 volumes:
+  venv:
   uv-cache:
 
 networks:
