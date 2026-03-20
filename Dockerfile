@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -Ls https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:$PATH"
 ENV PYTHONPATH="/app/src"
+ENV UV_PROJECT_ENVIRONMENT="/venv"
 
 WORKDIR /app
 
