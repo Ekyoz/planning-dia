@@ -1,21 +1,18 @@
 services:
-  planning-dia:
-    build: .
-    container_name: planning-dia
+  table-extractor:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: table-extractor:latest
+    container_name: table-extractor
     ports:
-      - "5000:5000"
+      - "8000:8000"
     volumes:
-      - /home/coxyz/planning-dia:/app
-      - venv:/venv                    # ← venv persistant
-      - uv-cache:/root/.cache/uv      # ← cache uv persistant
+      # Hot-reload : le dossier app/ local écrase celui du container
+      - ./app:/app/app
     restart: unless-stopped
-    networks:
-      - coxyz_network
-
-volumes:
-  venv:
-  uv-cache:
-
-networks:
-  coxyz_network:
-    external: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

@@ -1,21 +1,22 @@
 FROM python:3.11-slim
 
-RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    tesseract-ocr-fra \
+# Dépendances système pour OpenCV headless
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1 \
     libglib2.0-0 \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN curl -Ls https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.local/bin:$PATH"
-ENV PYTHONPATH="/app/src"
-ENV UV_PROJECT_ENVIRONMENT="/venv"
+    libgomp1 \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
+# Copie et installation des dépendances Python en premier (layer cache)
 COPY pyproject.toml .
-RUN uv sync
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir .
 
-CMD ["uv", "run", "uvicorn", "planning_dia.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
+# Copie du code source (écrasé en dev par le volume)
+COPY app/ ./app/
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
