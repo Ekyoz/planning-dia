@@ -3,7 +3,12 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
+      cache_from:
+        - type=local,src=/tmp/buildkit-cache/planning-dia
+      cache_to:
+        - type=local,dest=/tmp/buildkit-cache/planning-dia,mode=max
     image: planning-dia:latest
+    pull_policy: never
     container_name: planning-dia
     ports:
       - "8000:8000"
