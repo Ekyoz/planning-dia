@@ -11,8 +11,9 @@ WORKDIR /app
 
 # Copie et installation des dépendances Python en premier (layer cache)
 COPY pyproject.toml .
-RUN pip install --no-cache-dir --upgrade pip \
- && pip install --no-cache-dir .
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --upgrade pip \
+ && pip install .
 
 # Copie du code source (écrasé en dev par le volume)
 COPY app/ ./app/
