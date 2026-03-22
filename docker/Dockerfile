@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
+ENV PYTHONPATH=/app
+
 # Copie et installation des dépendances Python en premier (layer cache)
 COPY pyproject.toml .
 RUN --mount=type=cache,target=/root/.cache/pip \
