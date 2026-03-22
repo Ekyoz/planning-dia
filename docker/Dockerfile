@@ -11,14 +11,13 @@ WORKDIR /app
 
 ENV PYTHONPATH=/app
 
-# Copie et installation des dépendances Python en premier (layer cache)
+# Copie tout avant l'install pour que setuptools trouve le package
 COPY pyproject.toml .
+COPY app/ ./app/
+
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip \
  && pip install .
-
-# Copie du code source (écrasé en dev par le volume)
-COPY app/ ./app/
 
 EXPOSE 8000
 
