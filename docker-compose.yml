@@ -1,10 +1,10 @@
 services:
-  table-extractor:
+  planning-dia:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    image: table-extractor:latest
-    container_name: table-extractor
+    image: planning-dia:latest
+    container_name: planning-dia
     ports:
       - "8000:8000"
     volumes:
